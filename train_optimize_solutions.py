@@ -38,4 +38,4 @@ from evaluate import *
 intercept, slope = evaluate(y_test, test_ans)
 
 from genetic_algorithm import *
-genetic_algorithmX_train, model, num_var, intercept, slope)
+genetic_algorithm(X_train, model, num_var, intercept, slope)

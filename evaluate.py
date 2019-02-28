@@ -16,7 +16,9 @@ def evaluate(y_test, test_ans):
     slope, intercept, r_value, p_value, std_err = stats.linregress(
             y_test[:, 0], test_ans) #get some constants and results from the regression line generated from the neural network
     print("R2 Score from predicted x real %f" %r_value**2) #print the r2 of predicted value x fitted line on ann
-
+    
+    tensor_RMSE = math.sqrt(mean_squared_error(y_test, test_ans)) #get RMSE from real x predicted
+    print("RMSE: " + str(tensor_RMSE)) 
 
     plt.scatter(y_test, test_ans) #plot the predicted values (y) x real(x)
     plt.plot(y_test, y_test, 'black', label='real values') #plot the alpha=1 line (real x real)
