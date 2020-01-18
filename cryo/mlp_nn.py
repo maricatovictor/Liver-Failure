@@ -2,17 +2,21 @@ import tensorflow as tf
 import numpy as np
 from sklearn.metrics import mean_squared_error
 import math
+import os
 
 
-def mean_pred(y_true, y_pred): #Loss function for problem error evaluation on TensorFlow
+def mean_pred(y_true, y_pred):  # Loss function for problem error evaluation on TensorFlow
     RMSE = tf.sqrt(tf.losses.mean_squared_error(y_true, y_pred))
     return RMSE
 
+
 def num_var(X_train):
-    shape = np.shape(X_train) #Shape of train array (number of events, no of variables)
-    num_var = shape[1] #Show many variables on training data
-    
+    # Shape of train array (number of events, no of variables)
+    shape = np.shape(X_train)
+    num_var = shape[1]  # Show many variables on training data
+
     return num_var
+
 
 def train_nn(X_train, y_train, X_test, y_test, num_var):
 
@@ -34,11 +38,20 @@ def train_nn(X_train, y_train, X_test, y_test, num_var):
 
     # Neural Network Fitting and Validation data
     model.fit(X_train, y_train, epochs=200, steps_per_epoch=(int(len(X_train))),
-            validation_data=(X_test, y_test), validation_steps=(int(len(X_test))))
+              validation_data=(X_test, y_test), validation_steps=(int(len(X_test))))
 
-    test_ans = model.predict(X_test) #predict the test data and create an array of results
+    # predict the test data and create an array of results
+    test_ans = model.predict(X_test)
 
-    tensor_RMSE = math.sqrt(mean_squared_error(y_test, test_ans)) #get RMSE from real x predicted
+    # get RMSE from real x predicted
+    tensor_RMSE = math.sqrt(mean_squared_error(y_test, test_ans))
     print("RMSE: " + str(tensor_RMSE))
 
+    os.mkdir('models')
+    model.save("models/model.pkl")
+
     return model, test_ans
+
+
+if __name__ == "__main__":
+    train_nn()
